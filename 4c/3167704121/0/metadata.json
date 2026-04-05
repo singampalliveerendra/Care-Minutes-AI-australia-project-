@@ -1,0 +1,47 @@
+{
+  "cli_version": "0.5.2",
+  "checkpoint_id": "4c3167704121",
+  "session_id": "19fa78b0-a695-447c-a516-b2bd7adad6e9",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-05T11:43:58.740895048Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "app/admin/page.js",
+    "app/alerts/page.js",
+    "app/api/alerts/send/route.js",
+    "app/dashboard/page.js",
+    "app/forecast/page.js",
+    "app/globals.css",
+    "app/reports/page.js",
+    "app/settings/page.js",
+    "app/shifts/page.js",
+    "app/staff/page.js",
+    "components/BottomNav.js",
+    "components/Sidebar.js",
+    "package-lock.json",
+    "package.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "14c3d916e9c7",
+  "token_usage": {
+    "input_tokens": 11623,
+    "cache_creation_tokens": 333925,
+    "cache_read_tokens": 4897244,
+    "output_tokens": 86420,
+    "api_call_count": 53
+  },
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-05T11:43:57.680564336Z",
+    "agent_lines": 899,
+    "human_added": 675,
+    "human_modified": 40,
+    "human_removed": 0,
+    "total_committed": 1614,
+    "agent_percentage": 55.7001239157373
+  }
+}

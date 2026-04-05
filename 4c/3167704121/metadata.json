@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.5.2",
+  "checkpoint_id": "4c3167704121",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "app/admin/page.js",
+    "app/alerts/page.js",
+    "app/api/alerts/send/route.js",
+    "app/dashboard/page.js",
+    "app/forecast/page.js",
+    "app/globals.css",
+    "app/reports/page.js",
+    "app/settings/page.js",
+    "app/shifts/page.js",
+    "app/staff/page.js",
+    "components/BottomNav.js",
+    "components/Sidebar.js",
+    "package-lock.json",
+    "package.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/4c/3167704121/0/metadata.json",
+      "transcript": "/4c/3167704121/0/full.jsonl",
+      "content_hash": "/4c/3167704121/0/content_hash.txt",
+      "prompt": "/4c/3167704121/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 11623,
+    "cache_creation_tokens": 333925,
+    "cache_read_tokens": 4897244,
+    "output_tokens": 86420,
+    "api_call_count": 53
+  }
+}

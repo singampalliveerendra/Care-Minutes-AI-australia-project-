@@ -1,0 +1,234 @@
+hi
+
+---
+
+open care-minutes-ai and Fix these bugs and improvements in the 
+CareMinutes.ai application:
+
+BUG 1 — REMOVE LANGUAGE SETTINGS
+- Remove the entire Language & Regional 
+  Settings section from /settings page
+- Keep all other settings sections
+- App should stay in English Australian 
+  by default always
+- Remove language toggle completely
+
+BUG 2 — EMAIL INPUT BUG IN SETTINGS
+- In Alert Recipients section the email 
+  input field has a bug
+- When typing an email address the cursor
+  jumps up after each letter
+- This is a controlled input state bug
+- Fix the email input so user can type
+  full email address smoothly without
+  cursor jumping
+- Same fix for SMS mobile number input
+  if it has the same issue
+
+BUG 3 — MOBILE RESPONSIVENESS
+- Fix all pages for mobile screens
+- Text and words are merging and overlapping
+  on mobile view
+- Specific fixes needed:
+  * All tables must scroll horizontally 
+    on mobile not overflow
+  * Cards must stack vertically on mobile
+  * Text must never overflow its container
+  * Sidebar must be completely hidden on 
+    mobile — show only bottom navigation
+  * All buttons must be full width on mobile
+  * Font sizes must be smaller on mobile
+  * Padding must be reduced on mobile
+  * Dashboard stat cards: 2 columns on 
+    mobile not 4 columns
+  * All form inputs must be full width
+  * Table columns: hide less important 
+    columns on mobile
+  * Navigation bottom bar must always 
+    be visible on mobile
+  * Test every single page for mobile
+
+BUG 5 — IMPROVE UI QUALITY
+Make the UI more professional and realistic:
+
+Dashboard:
+- Add smooth hover effects on all cards
+- Add subtle animations when page loads
+- Make stat cards have gradient backgrounds
+- Add loading skeleton when data loads
+- Make progress bars animate smoothly
+- Add tooltips on hover for technical terms
+
+General UI:
+- Add smooth page transitions
+- Improve card shadows and borders
+- Make buttons have hover and active states
+- Add micro animations on toggle switches
+- Improve empty state designs
+- Add subtle background pattern
+- Make typography more consistent
+- Improve spacing throughout
+- Add focus states on all inputs
+- Make the app feel more premium
+
+Sidebar:
+- Add hover effects on menu items
+- Add smooth active state transition
+- Improve logo area design
+- Add subtle divider lines
+
+Tables:
+- Add row hover effects
+- Improve header styling
+- Add zebra striping on alternate rows
+- Make action buttons more refined
+
+Forms:
+- Improve input focus states
+- Add smooth validation feedback
+- Improve error message styling
+- Add character count where relevant
+
+Colors and Typography:
+- Make headings more consistent
+- Improve color contrast throughout
+- Add consistent icon sizing
+- Improve badge designs
+
+IMPORTANT:
+- Do not break any existing functionality
+- Keep MyAgedCare link in star rating card
+- Keep all existing pages and features
+- Mobile must work perfectly — 
+  this is primarily a mobile app
+- Test npm run build after all changes
+- Tell me when each fix is complete
+
+---
+
+i want to open this on my friends phone so tell me the temporary process
+
+---
+
+now Connect the CareMinutes.ai application to 
+Supabase database. The .env.local file 
+already has the correct credentials.
+
+STEP 1 — CREATE DATABASE TABLES
+Run these SQL commands in Supabase:
+
+Create these tables:
+
+facilities:
+- id (uuid, primary key, default gen_random_uuid())
+- name (text, not null)
+- resident_count (integer, default 40)
+- manager_name (text)
+- manager_email (text)
+- manager_phone (text)
+- address (text)
+- state (text, default 'NSW')
+- abn (text)
+- postcode (text)
+- annacc_rate (decimal, default 220)
+- alert_time (text, default '07:00')
+- email_alerts (boolean, default true)
+- sms_alerts (boolean, default false)
+- created_at (timestamp, default now())
+
+staff:
+- id (uuid, primary key, default gen_random_uuid())
+- facility_id (uuid, references facilities)
+- name (text, not null)
+- role (text, not null) -- RN, EN, PCW
+- employment_type (text) -- Permanent, Casual, Agency
+- phone (text)
+- email (text)
+- is_active (boolean, default true)
+- created_at (timestamp, default now())
+
+shifts:
+- id (uuid, primary key, default gen_random_uuid())
+- facility_id (uuid, references facilities)
+- staff_id (uuid, references staff)
+- staff_name (text)
+- staff_type (text) -- RN, EN, PCW, Agency
+- date (date, not null)
+- start_time (text)
+- end_time (text)
+- duration_minutes (integer)
+- employment_type (text)
+- created_at (timestamp, default now())
+
+alerts:
+- id (uuid, primary key, default gen_random_uuid())
+- facility_id (uuid, references facilities)
+- date (date)
+- status (text) -- on_track, action_needed
+- message (text)
+- actions_suggested (text)
+- sent_via_email (boolean, default false)
+- created_at (timestamp, default now())
+
+shift_history:
+- id (uuid, primary key, default gen_random_uuid())
+- shift_id (uuid, references shifts)
+- facility_id (uuid, references facilities)
+- changed_by (text)
+- changed_at (timestamp, default now())
+- old_values (jsonb)
+- new_values (jsonb)
+- reason (text)
+
+STEP 2 — CREATE SUPABASE CLIENT
+Update lib/supabase.js to use environment variables:
+- Use NEXT_PUBLIC_SUPABASE_URL
+- Use NEXT_PUBLIC_SUPABASE_ANON_KEY
+- Export supabase client
+
+STEP 3 — CREATE DATABASE FUNCTIONS
+Create lib/db.js with these functions:
+- getFacility(facilityId)
+- updateFacility(facilityId, data)
+- getStaff(facilityId)
+- addStaff(facilityId, staffData)
+- updateStaff(staffId, data)
+- deleteStaff(staffId)
+- getShifts(facilityId, startDate, endDate)
+- addShift(facilityId, shiftData)
+- updateShift(shiftId, data)
+- deleteShift(shiftId)
+- getAlerts(facilityId)
+- saveAlert(facilityId, alertData)
+
+STEP 4 — SEED INITIAL DATA
+Create lib/seedData.js that inserts 
+the Sunrise Aged Care dummy data into 
+Supabase when run:
+- Facility: Sunrise Aged Care, 40 residents
+- All 6 staff members
+- 14 days of shifts
+- 7 alerts
+
+STEP 5 — CONNECT PAGES TO DATABASE
+Update these pages to use real Supabase 
+data instead of dummy data:
+- app/dashboard/page.js
+- app/shifts/page.js
+- app/staff/page.js
+- app/alerts/page.js
+
+Keep dummy data as fallback if Supabase 
+connection fails.
+
+STEP 6 — GENERATE SQL FILE
+Create a file called supabase-schema.sql
+with all the CREATE TABLE statements
+so I can run them in Supabase dashboard.
+
+Tell me when each step is complete.
+Do not break any existing functionality.
+
+---
+
+please continue and recheck once dont miss anything
