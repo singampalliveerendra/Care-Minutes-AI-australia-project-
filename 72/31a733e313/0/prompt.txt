@@ -1,0 +1,210 @@
+Check the settings page 
+
+and tell me:
+
+1. Is there a Manager Details section?
+
+2. Can the DON name be edited?
+
+3. Can the DON email be edited?
+
+4. Can the DON phone be edited?
+
+5. Does saving update the details?
+
+6. Where are the details saved - 
+
+   localStorage or Supabase?
+
+Just read the file and report back.
+
+Do not change anything yet.
+
+---
+
+open care-minuted-ai folder Check the settings page 
+
+and tell me:
+
+1. Is there a Manager Details section?
+
+2. Can the DON name be edited?
+
+3. Can the DON email be edited?
+
+4. Can the DON phone be edited?
+
+5. Does saving update the details?
+
+6. Where are the details saved - 
+
+   localStorage or Supabase?
+
+Just read the file and report back.
+
+Do not change anything yet.
+
+---
+
+Add automated 7am daily email alert 
+with Gemini AI and enable/disable 
+toggle in settings.
+
+ENVIRONMENT VARIABLES ALREADY IN .env.local:
+- RESEND_API_KEY
+- ALERT_FROM_EMAIL
+- ALERT_TO_EMAIL
+- NEXT_PUBLIC_SUPABASE_URL
+- NEXT_PUBLIC_SUPABASE_ANON_KEY
+- GEMINI_API_KEY
+
+PART 1 — SETTINGS TOGGLE
+In app/settings/page.js add to 
+Alert Preferences section:
+
+Automated Daily Alert card:
+- Title: Automated Daily Alert
+- Description: Automatically send 
+  compliance summary email every 
+  morning at 07:00 AEST
+- Large green toggle ON/OFF
+- When ON: green badge showing
+  Active — sends daily at 07:00 AEST
+- When OFF: grey badge showing
+  Disabled — manual alerts only
+- Save to localStorage: cm_autoAlertEnabled
+- Default: true
+- Success toast when saved
+
+PART 2 — INNGEST SETUP
+Install inngest package first.
+
+Create inngest/client.js:
+- Create Inngest client with 
+  id care-minutes-ai
+
+Create inngest/functions/daily-alert.js:
+- Schedule: 0 21 * * * 
+  (9pm UTC = 7am AEST)
+- Steps:
+  1. Check cm_autoAlertEnabled
+     If false → skip and return disabled
+  2. Get facility and shifts from 
+     lib/dummyData.js
+  3. Calculate compliance using 
+     calculateDayCompliance from 
+     lib/compliance.js
+  4. Get recipient email:
+     First check cm_mgEmail localStorage
+     Fallback to ALERT_TO_EMAIL env
+  5. Build prompt for Gemini
+  6. Call Gemini API with prompt
+  7. Get AI generated message back
+  8. Build HTML email with message
+  9. Send via Resend
+  10. Return success
+
+Create app/api/inngest/route.js:
+- Serve Inngest functions
+- Export GET POST PUT handlers
+
+PART 3 — GEMINI API INTEGRATION
+In the daily alert function call 
+Google Gemini API:
+
+URL: https://generativelanguage.googleapis.com
+     /v1beta/models/gemini-1.5-flash
+     :generateContent
+     ?key=process.env.GEMINI_API_KEY
+
+Method: POST
+
+Send this prompt to Gemini:
+"You are a compliance analyst for 
+Australian aged care facilities.
+Write a short morning alert for the 
+Director of Nursing.
+
+Facility: [facility name]
+Residents: [count]
+Date: [DD/MM/YYYY]
+Total care minutes: [X] of [target] ([%])
+RN minutes: [X] of [target] ([%])
+Status: [GREEN/AMBER/RED]
+Penalty at risk: $[amount]
+
+Shifts today:
+[list each shift]
+
+Rules:
+- Maximum 80 words
+- Use Australian English
+- If GREEN: positive and reassuring
+- If AMBER: suggest adding RN shift
+- If RED: urgent tone, name staff to call
+- Sound professional but friendly"
+
+Parse Gemini response and extract 
+the generated text.
+
+PART 4 — EMAIL TEMPLATE
+Send HTML email via Resend with:
+
+Subject:
+CareMinutes.ai Daily Alert — 
+[Facility Name] [DD/MM/YYYY]
+
+Email body:
+- Header: CareMinutes.ai logo text green
+- Facility name and date
+- Status badge: 
+  GREEN = green background
+  AMBER = orange background  
+  RED = red background
+- Numbers section:
+  Total minutes: X of X (X%)
+  RN minutes: X of X (X%)
+  Penalty at risk: $X.XX
+- AI Generated Message section:
+  Show Gemini generated text here
+- Action button:
+  View Dashboard →
+  Link to Netlify URL
+- Footer:
+  Sent by CareMinutes.ai
+  Australian Aged Care Compliance
+
+PART 5 — MANUAL TEST BUTTON
+In app/alerts/page.js:
+- Update Generate Alert Now button
+- When clicked:
+  1. Check if Gemini key exists
+  2. Get shift data from dummyData
+  3. Call Gemini for message
+  4. Send email via Resend
+  5. Show success toast:
+     Alert sent to [email]
+  6. Add new alert to alerts list
+     showing AI generated message
+  7. Show loading state while processing
+
+PART 6 — ALERTS PAGE UPDATE
+In app/alerts/page.js:
+- Show badge on each alert:
+  AUTO for scheduled alerts
+  MANUAL for button triggered
+- Show AI Generated badge on alerts
+  that used Gemini
+
+DESIGN:
+- Match existing app design
+- Green toggle matching app colours
+- Mobile responsive
+- Loading states on all buttons
+
+IMPORTANT:
+- Use dummy data not Supabase yet
+- Keep existing email functionality
+- Do not break any existing pages
+- Run npm run build when complete
+- Tell me each part when done
