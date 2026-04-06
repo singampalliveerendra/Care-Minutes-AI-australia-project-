@@ -1,0 +1,118 @@
+open care-minutes-ai Fix compliance penalty calculation.
+
+According to Australian aged care legislation:
+- Penalties are ONLY applied on RED days
+  (below 85% compliance)
+- AMBER days (85-99%) do NOT incur penalties
+- GREEN days (100%+) do NOT incur penalties
+
+Find and fix ALL places in the codebase
+where penalty is calculated or displayed:
+
+1. lib/compliance.js
+   - penaltyAmount should only be calculated
+     when status is RED (below 85%)
+   - When status is AMBER or GREEN:
+     penaltyAmount = 0
+
+2. app/dashboard/page.js
+   - Penalty at risk card should show $0.00
+     on AMBER days
+   - Only show penalty amount on RED days
+   - Update the penalty warning card:
+     Only show red warning on RED days
+     On AMBER days show orange warning
+     with "No penalty yet but at risk"
+
+3. app/forecast/page.js
+   - Quarterly penalty calculation should
+     only count RED days not AMBER days
+   - Update penalty accrued calculation
+   - Update projected penalty calculation
+
+4. lib/dummyData.js
+   - Check if any dummy data has incorrect
+     penalty amounts on AMBER days
+   - Fix any AMBER day penalties to $0
+
+5. app/reports/page.js or PDF report
+   - Daily breakdown table should show
+     $0 penalty for AMBER days
+   - Only show penalty amount for RED days
+
+6. Any other place penalty is calculated
+   or displayed in the app
+
+The rule is simple:
+RED = below 85% = penalty applies ($31.64 per resident)
+AMBER = 85-99% = NO penalty but at risk warning
+GREEN = 100%+ = NO penalty compliant
+
+After fixing run npm run build.
+Make sure build passes with zero errors.
+Tell me each file that was changed
+and what was fixed.
+
+---
+
+Fix compliance penalty calculation.
+
+According to Australian aged care legislation:
+- Penalties are ONLY applied on RED days
+  (below 85% compliance)
+- AMBER days (85-99%) do NOT incur penalties
+- GREEN days (100%+) do NOT incur penalties
+
+Find and fix ALL places in the codebase
+where penalty is calculated or displayed:
+
+1. lib/compliance.js
+   - penaltyAmount should only be calculated
+     when status is RED (below 85%)
+   - When status is AMBER or GREEN:
+     penaltyAmount = 0
+
+2. app/dashboard/page.js
+   - Penalty at risk card should show $0.00
+     on AMBER days
+   - Only show penalty amount on RED days
+   - Update the penalty warning card:
+     Only show red warning on RED days
+     On AMBER days show orange warning
+     with "No penalty yet but at risk"
+
+3. app/forecast/page.js
+   - Quarterly penalty calculation should
+     only count RED days not AMBER days
+   - Update penalty accrued calculation
+   - Update projected penalty calculation
+
+4. lib/dummyData.js
+   - Check if any dummy data has incorrect
+     penalty amounts on AMBER days
+   - Fix any AMBER day penalties to $0
+
+5. app/reports/page.js or PDF report
+   - Daily breakdown table should show
+     $0 penalty for AMBER days
+   - Only show penalty amount for RED days
+
+6. Any other place penalty is calculated
+   or displayed in the app
+
+The rule is simple:
+RED = below 85% = penalty applies ($31.64 per resident)
+AMBER = 85-99% = NO penalty but at risk warning
+GREEN = 100%+ = NO penalty compliant
+
+After fixing run npm run build.
+Make sure build passes with zero errors.
+Tell me each file that was changed
+and what was fixed.
+
+---
+
+Update .env.local change:
+REDACTED
+back to:
+REDACTED
