@@ -1,0 +1,198 @@
+❯ in terminal 1 veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npm run dev
+
+  > care-minutes-ai@0.1.0 dev
+  > next dev
+
+  ▲ Next.js 16.2.2 (Turbopack)
+  - Local:         http://localhost:3000
+  - Network:       http://10.255.255.254:3000
+  - Environments: .env.local
+  ✓ Ready in 665ms
+
+   GET /api/inngest 200 in 781ms (next.js: 759ms, application-code: 22ms)
+   PUT /api/inngest 200 in 797ms (next.js: 702ms, application-code: 96ms)
+   GET /x/inngest 404 in 548ms (next.js: 167ms, application-code: 382ms)
+   GET /.netlify/functions/inngest 404 in 93ms (next.js: 7ms, application-code: 85ms)
+   GET /.redwood/functions/inngest 404 in 93ms (next.js: 5ms, application-code: 88ms)
+   PUT /api/inngest 200 in 20ms (next.js: 3ms, application-code: 17ms)
+   PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 16ms)
+   PUT /api/inngest 200 in 32ms (next.js: 6ms, application-code: 26ms)
+   PUT /api/inngest 200 in 20ms (next.js: 4ms, application-code: 16ms)
+   PUT /api/inngest 200 in 22ms (next.js: 3ms, application-code: 18ms)
+   PUT /api/inngest 200 in 46ms (next.js: 6ms, application-code: 39ms)
+   PUT /api/inngest 200 in 24ms (next.js: 5ms, application-code: 19ms)
+   POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 18ms (next.js: 3ms, application-code: 15ms)
+   PUT /api/inngest 200 in 24ms (next.js: 3ms, application-code: 20ms)
+   PUT /api/inngest 200 in 33ms (next.js: 3ms, application-code: 29ms)
+   PUT /api/inngest 200 in 22ms (next.js: 3ms, application-code: 20ms)
+   POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 19ms (next.js: 6ms, application-code: 13ms)
+   PUT /api/inngest 200 in 16ms (next.js: 4ms, application-code: 12ms)
+   PUT /api/inngest 200 in 28ms (next.js: 5ms, application-code: 22ms)
+   PUT /api/inngest 200 in 21ms (next.js: 2ms, application-code: 19ms)
+   PUT /api/inngest 200 in 23ms (next.js: 3ms, application-code: 20ms)
+   PUT /api/inngest 200 in 27ms (next.js: 7ms, application-code: 20ms)
+   PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 14ms)
+   PUT /api/inngest 200 in 74ms (next.js: 7ms, application-code: 67ms)
+   PUT /api/inngest 200 in 42ms (next.js: 5ms, application-code: 37ms)
+   PUT /api/inngest 200 in 85ms (next.js: 17ms, application-code: 68ms)
+   PUT /api/inngest 200 in 31ms (next.js: 6ms, application-code: 25ms)
+   PUT /api/inngest 200 in 22ms (next.js: 5ms, application-code: 17ms)
+   PUT /api/inngest 200 in 26ms (next.js: 4ms, application-code: 22ms)
+   POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 19ms (next.js: 3ms, application-code: 16ms)
+   PUT /api/inngest 200 in 126ms (next.js: 12ms, application-code: 114ms)
+   PUT /api/inngest 200 in 37ms (next.js: 8ms, application-code: 29ms)
+   PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: in terminal 2 veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npx
+  inngest-cli@latest dev -u http://localhost:3000/api/inngest
+  [06:49:59.835] INF starting executor grpc server svc=executor addr=:50053
+  [06:49:59.845] INF service starting caller=devserver service=devserver
+  [06:49:59.845] INF service starting caller=lease-scavenger service=lease-scavenger
+  [06:49:59.845] INF service starting caller=executor service=executor
+  [06:49:59.845] INF autodiscovering locally hosted SDKs
+  [06:49:59.845] INF starting event stream backend=redis
+  [06:49:59.845] INF service starting caller=runner service=runner
+  [06:49:59.845] INF subscribing to function queue
+  [06:49:59.845] INF service starting caller=api service=api
+  [06:49:59.845] INF Executor started in assignedQueueShard Mode queue_shard=default
+  [06:49:59.845] INF starting server caller=api addr=0.0.0.0:8288
+  [06:49:59.849] INF service starting caller=connect-gateway service=connect-gateway
+  [06:49:59.850] INF starting connect gateway grpc server caller=connect-gateway addr=:50052
+
+
+          Inngest Dev Server online at 0.0.0.0:8288, visible at the following URLs:
+
+           - http://127.0.0.1:8288 (http://localhost:8288)
+           - http://10.255.255.254:8288
+           - http://172.20.100.230:8288[06:49:59.871] INF subscribing to events topic=events
+
+
+          Scanning for available serve handlers.
+          To disable scanning run `inngest dev` with flags: --no-discovery -u <your-serve-url>
+
+  [06:50:06.443] INF apps synced, disabling auto-discovery
+  [06:50:38.800] INF publishing event caller=devserver event_name=inngest/function.invoked REDACTED
+  REDACTED event="{ID:01KNGRXGAGGT5139R9X90HDEVE Name:inngest/function.invoked Data:map[_inngest:{InvokeType:
+  InvokeIdempotencyKey: SourceAppID: SourceFnID: SourceFnVersion:0 InvokeFnID:care-minutes-ai-daily-compliance-alert InvokeCorrelationId:
+  InvokeTraceCarrier:<nil> InvokeExpiresAt:0 InvokeGroupID: InvokeDisplayName: DebugSessionID:<nil> DebugRunID:<nil>}] Timestamp:1775458238800
+  Version: User:map[] size:0}"
+  [06:50:39.001] INF received event event=inngest/function.invoked event_id=01KNGRXGAGGT5139R9X90HDEVE REDACTED
+  [06:50:39.002] INF initializing fn event=inngest/function.invoked event_id=01KNGRXGAGGT5139R9X90HDEVE REDACTED
+  function=daily-compliance-alert function_id=397ce048-f27a-53e1-b875-0bea575155a5
+  [06:50:39.189] ERR error handling queue item error="invalid status code: 401" item_kind=start
+  [06:50:56.191] ERR error handling queue item error="invalid status code: 401" item_kind=start
+  [06:51:52.572] ERR error handling queue item error="invalid status code: 401" item_kind=start
+
+   still not working why tell me reason
+
+---
+
+in terminal1 - ✓ Ready in 1005ms
+
+ GET /api/inngest 200 in 701ms (next.js: 680ms, application-code: 21ms)
+ PUT /api/inngest 200 in 720ms (next.js: 630ms, application-code: 90ms)
+ GET /x/inngest 404 in 714ms (next.js: 152ms, application-code: 562ms)
+ GET /.netlify/functions/inngest 404 in 139ms (next.js: 10ms, application-code: 129ms)
+ GET /.redwood/functions/inngest 404 in 170ms (next.js: 18ms, application-code: 152ms)
+ PUT /api/inngest 200 in 47ms (next.js: 4ms, application-code: 43ms)
+ PUT /api/inngest 200 in 16ms (next.js: 3ms, application-code: 13ms)
+ PUT /api/inngest 200 in 14ms (next.js: 3ms, application-code: 12ms)
+ PUT /api/inngest 200 in 31ms (next.js: 5ms, application-code: 26ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 22ms (next.js: 3ms, application-code: 19ms)
+ POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 24ms (next.js: 5ms, application-code: 19ms)
+ PUT /api/inngest 200 in 23ms (next.js: 3ms, application-code: 20ms)
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 14ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 15ms (next.js: 2ms, application-code: 13ms)
+ POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 11ms (next.js: 3ms, application-code: 8ms)
+ PUT /api/inngest 200 in 15ms (next.js: 3ms, application-code: 13ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+in terminal 2 -veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npx inngest-cli@latest dev -u http://localhost:3000/api/inngest
+[07:00:34.183] INF starting executor grpc server svc=executor addr=:50053
+[07:00:34.191] INF service starting caller=lease-scavenger service=lease-scavenger
+[07:00:34.191] INF service starting caller=executor service=executor
+[07:00:34.191] INF autodiscovering locally hosted SDKs
+[07:00:34.191] INF service starting caller=devserver service=devserver
+[07:00:34.191] INF starting event stream backend=redis
+[07:00:34.191] INF subscribing to function queue
+[07:00:34.191] INF service starting caller=api service=api
+[07:00:34.191] INF starting server caller=api addr=0.0.0.0:8288
+[07:00:34.191] INF service starting caller=runner service=runner
+[07:00:34.192] INF Executor started in assignedQueueShard Mode queue_shard=default
+[07:00:34.193] INF service starting caller=connect-gateway service=connect-gateway
+[07:00:34.193] INF starting connect gateway grpc server caller=connect-gateway addr=:50052
+[07:00:34.210] INF subscribing to events topic=events
+
+
+        Inngest Dev Server online at 0.0.0.0:8288, visible at the following URLs:
+
+         - http://127.0.0.1:8288 (http://localhost:8288)
+         - http://10.255.255.254:8288
+         - http://172.20.100.230:8288
+
+        Scanning for available serve handlers.
+        To disable scanning run `inngest dev` with flags: --no-discovery -u <your-serve-url>
+
+[07:00:41.019] INF apps synced, disabling auto-discovery
+[07:01:09.111] INF publishing event caller=devserver event_name=inngest/function.invoked REDACTED REDACTED event="{ID:01KNGSGQVMV22V8GV391H05FC9 Name:inngest/function.invoked Data:map[_inngest:{InvokeType: InvokeIdempotencyKey: SourceAppID: SourceFnID: SourceFnVersion:0 InvokeFnID:care-minutes-ai-daily-compliance-alert InvokeCorrelationId: InvokeTraceCarrier:<nil> InvokeExpiresAt:0 InvokeGroupID: InvokeDisplayName: DebugSessionID:<nil> DebugRunID:<nil>}] Timestamp:1775458869108 Version: User:map[] size:0}"
+[07:01:09.327] INF received event event=inngest/function.invoked event_id=01KNGSGQVMV22V8GV391H05FC9 REDACTED
+[07:01:09.328] INF initializing fn event=inngest/function.invoked event_id=01KNGSGQVMV22V8GV391H05FC9 REDACTED function=daily-compliance-alert function_id=397ce048-f27a-53e1-b875-0bea575155a5
+[07:01:09.491] ERR error handling queue item error="invalid status code: 401" item_kind=start
+[07:01:29.616] ERR error handling queue item error="invalid status code: 401" item_kind=start
+
+---
+
+Update .env.local file.
+
+Change INNGEST_SIGNING_KEY back to 
+the production signing key.
+
+Go to this URL and read the signing key:
+app.inngest.com/env/production/manage/signing-key
+
+The current value in .env.local is:
+REDACTED
+
+Change it back to the production key 
+that starts with:
+signkey-prod-
+
+Also make sure app/api/inngest/route.js 
+still uses:
+signingKey: process.env.INNGEST_SIGNING_KEY
+
+After updating .env.local run:
+npm run build
+
+Tell me when done and confirm the 
+signing key starts with signkey-prod-
+
+---
+
+Update .env.local file.
+
+Change INNGEST_SIGNING_KEY back to 
+the production signing key.
+
+Go to this URL and read the signing key:
+app.inngest.com/env/production/manage/signing-key
+
+The current value in .env.local is:
+REDACTED
+
+Change it back to the production key 
+that starts with:
+signkey-prod-
+
+Also make sure app/api/inngest/route.js 
+still uses:
+signingKey: process.env.INNGEST_SIGNING_KEY
+
+After updating .env.local run:
+npm run build
+
+Tell me when done and confirm the 
+signing key starts with signkey-prod-
+
+---
+
+atleast wil it work in after deployin in netlify
