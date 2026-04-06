@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.5.2",
+  "checkpoint_id": "a249554494fb",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 17,
+  "files_touched": [
+    "app/api/alerts/send/route.js",
+    "app/api/inngest/route.js",
+    "app/api/settings/recipients/route.js",
+    "app/settings/page.js",
+    "inngest/client.js",
+    "inngest/functions/daily-alert.js",
+    "lib/db.js",
+    "lib/useLocalStorage.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/a2/49554494fb/0/metadata.json",
+      "transcript": "/a2/49554494fb/0/full.jsonl",
+      "content_hash": "/a2/49554494fb/0/content_hash.txt",
+      "prompt": "/a2/49554494fb/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 86,
+    "cache_creation_tokens": 76422,
+    "cache_read_tokens": 2800125,
+    "output_tokens": 24112,
+    "api_call_count": 53
+  }
+}

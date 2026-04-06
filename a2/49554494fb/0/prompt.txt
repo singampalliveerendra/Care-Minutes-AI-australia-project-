@@ -1,0 +1,811 @@
+hi open care-minutes-ai folder Check and fix the Inngest setup in 
+this project before we connect it.
+
+1. Read inngest/client.js and verify
+   it uses INNGEST_EVENT_KEY from env
+
+2. Read inngest/functions/daily-alert.js 
+   and verify:
+   - Schedule is correct: "0 21 * * *"
+     (9pm UTC = 7am AEST)
+   - It reads shift data from dummyData.js
+   - It calls Gemini API using GEMINI_API_KEY
+   - It sends email via Resend using 
+     RESEND_API_KEY and ALERT_TO_EMAIL
+   - It checks cm_autoAlertEnabled setting
+   - Returns proper success/error response
+
+3. Read app/api/inngest/route.js and verify
+   - It serves the daily alert function
+   - Exports GET POST PUT handlers correctly
+   - Uses INNGEST_SIGNING_KEY from env
+
+4. Fix any issues found in above files
+
+5. Make sure inngest package is installed:
+   Check package.json for inngest dependency
+   If missing run npm install inngest
+
+6. Run npm run build to verify 
+   no build errors
+
+Tell me exactly what you found in 
+each file and what was fixed.
+
+---
+
+after inngest tell me the run commands
+
+---
+
+veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npm run dev
+
+> care-minutes-ai@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.255.255.254:3000
+- Environments: .env.local
+✓ Ready in 770ms
+
+ GET /api/inngest 200 in 640ms (next.js: 592ms, application-code: 48ms)
+ GET /x/inngest 404 in 426ms (next.js: 146ms, application-code: 280ms)
+ GET /.netlify/functions/inngest 404 in 80ms (next.js: 5ms, application-code: 75ms)
+ GET /.redwood/functions/inngest 404 in 92ms (next.js: 10ms, application-code: 82ms)
+Failed to register
+TypeError: fetch failed
+    at ignore-listed frames {
+  [cause]: AggregateError:
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  }
+}
+ PUT /api/inngest 500 in 1925ms (next.js: 675ms, application-code: 1250ms)
+Failed to register
+TypeError: fetch failed
+    at ignore-listed frames {
+  [cause]: AggregateError:
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  }
+}
+ PUT /api/inngest 500 in 882ms (next.js: 4ms, application-code: 877ms)
+Failed to register
+TypeError: fetch failed
+    at ignore-listed frames {
+  [cause]: AggregateError:
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  }
+}
+ PUT /api/inngest 500 in 928ms (next.js: 4ms, application-code: 924ms)
+ PUT /api/inngest 400 in 1032ms (next.js: 4ms, application-code: 1028ms)
+why iam getting this error tell me the reasone before doing anything
+
+---
+
+actually i run both but commint non stop error
+
+---
+
+veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npm run dev
+
+> care-minutes-ai@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.255.255.254:3000
+- Environments: .env.local
+✓ Ready in 684ms
+
+ GET /api/inngest 200 in 629ms (next.js: 604ms, application-code: 25ms)
+ GET /x/inngest 404 in 523ms (next.js: 205ms, application-code: 319ms)
+ GET /.netlify/functions/inngest 404 in 107ms (next.js: 8ms, application-code: 99ms)
+ GET /.redwood/functions/inngest 404 in 91ms (next.js: 6ms, application-code: 85ms)
+Failed to register
+TypeError: fetch failed
+    at ignore-listed frames {
+  [cause]: AggregateError:
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  }
+}
+ PUT /api/inngest 500 in 1928ms (next.js: 515ms, application-code: 1413ms)
+Failed to register
+TypeError: fetch failed
+    at ignore-listed frames {
+  [cause]: AggregateError:
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  }
+}
+ PUT /api/inngest 500 in 1030ms (next.js: 3ms, application-code: 1027ms)
+Failed to register
+TypeError: fetch failed
+    at ignore-listed frames {
+  [cause]: AggregateError:
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  }
+}
+ PUT /api/inngest 500 in 885ms (next.js: 3ms, application-code: 882ms)
+veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npx inngest-cli@latest dev -u http://localhost:3000/api/inngest
+[05:42:41.694] INF starting executor grpc server svc=executor addr=:50053
+[05:42:41.717] INF service starting caller=lease-scavenger service=lease-scavenger
+[05:42:41.717] INF service starting caller=api service=api
+[05:42:41.717] INF starting server caller=api addr=0.0.0.0:8288
+[05:42:41.717] INF autodiscovering locally hosted SDKs
+[05:42:41.717] INF service starting caller=executor service=executor
+[05:42:41.717] INF service starting caller=devserver service=devserver
+[05:42:41.717] INF starting event stream backend=redis
+[05:42:41.717] INF service starting caller=runner service=runner
+[05:42:41.717] INF subscribing to function queue
+[05:42:41.717] INF Executor started in assignedQueueShard Mode queue_shard=default
+[05:42:41.718] INF service starting caller=connect-gateway service=connect-gateway
+[05:42:41.718] INF starting connect gateway grpc server caller=connect-gateway addr=:50052
+
+
+        Inngest Dev Server online at 0.0.0.0:8288, visible at the following URLs:
+
+         - http://127.0.0.1:8288 (http://localhost:8288)
+         - http://10.255.255.254:8288
+         - http://172.20.100.230:8288
+
+        Scanning for available serve handlers.
+        To disable scanning run `inngest dev` with flags: --no-discovery -u <your-serve-url>
+
+[05:42:41.778] INF subscribing to events topic=events
+[05:42:48.174] INF apps synced, disabling auto-discovery
+
+---
+
+actually i got this error veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npm run dev
+
+> care-minutes-ai@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.255.255.254:3000
+- Environments: .env.local
+✓ Ready in 606ms
+⚠ Slow filesystem detected. The benchmark took 213ms. If /home/veerendra/projects/care-minutes-ai/.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+
+ GET /api/inngest 200 in 418ms (next.js: 385ms, application-code: 33ms)
+ PUT /api/inngest 200 in 504ms (next.js: 430ms, application-code: 74ms)
+ GET /x/inngest 404 in 368ms (next.js: 120ms, application-code: 248ms)
+ GET /.netlify/functions/inngest 404 in 91ms (next.js: 5ms, application-code: 85ms)
+ GET /.redwood/functions/inngest 404 in 59ms (next.js: 4ms, application-code: 55ms)
+ PUT /api/inngest 200 in 25ms (next.js: 4ms, application-code: 21ms)
+ PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 14ms)
+ PUT /api/inngest 200 in 18ms (next.js: 2ms, application-code: 15ms)
+ PUT /api/inngest 200 in 30ms (next.js: 5ms, application-code: 25ms)
+ PUT /api/inngest 200 in 20ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 22ms (next.js: 7ms, application-code: 15ms)
+ PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 15ms)
+ PUT /api/inngest 200 in 22ms (next.js: 4ms, application-code: 18ms)
+ PUT /api/inngest 200 in 27ms (next.js: 3ms, application-code: 24ms)
+ PUT /api/inngest 200 in 203ms (next.js: 8ms, application-code: 195ms)
+ PUT /api/inngest 200 in 74ms (next.js: 7ms, application-code: 67ms)
+ PUT /api/inngest 200 in 82ms (next.js: 14ms, application-code: 68ms)
+ PUT /api/inngest 200 in 25ms (next.js: 7ms, application-code: 18ms)
+ PUT /api/inngest 200 in 116ms (next.js: 34ms, application-code: 82ms)
+ PUT /api/inngest 200 in 23ms (next.js: 6ms, application-code: 17ms)
+ GET /settings 200 in 1007ms (next.js: 438ms, application-code: 569ms)
+ PUT /api/inngest 200 in 62ms (next.js: 4ms, application-code: 58ms)
+[browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/settings" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="settings/p...">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function SettingsPage} serverProvidedParams={{...}}>
+              <SettingsPage params={Promise} searchParams={Promise}>
+                <div className="p-4 md:p-6...">
+                  <div>
+                  <form>
+                  <SectionCard icon={{...}} title="Alert Reci...">
+                    <div className="bg-white r...">
+                      <div>
+                      <p>
+                      <div className="mb-6">
+                        <div className="flex items...">
+                          <Mail>
+                          <h3>
+                          <span className="text-xs te...">
++                           1
+-                           2
+                            ...
+                        ...
+                      ...
+          ...
+        ...
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at span (<anonymous>)
+    at SettingsPage (app/settings/page.js:418:13)
+  416 |             <Mail className="w-3.5 h-3.5 text-gray-400" />
+  417 |             <h3 className="text-sm font-semibold text-gray-700">Email Recipients</h3>
+> 418 |             <span className="text-xs text-gray-400">({emailRecipients.length}/5)</span>
+      |             ^
+  419 |           </div>
+  420 |
+  421 |           <div className="flex gap-2 mb-2">
+ PUT /api/inngest 200 in 27ms (next.js: 4ms, application-code: 22ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 22ms (next.js: 4ms, application-code: 18ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 33ms (next.js: 4ms, application-code: 30ms)
+ PUT /api/inngest 200 in 21ms (next.js: 4ms, application-code: 17ms)
+ PUT /api/inngest 200 in 19ms (next.js: 2ms, application-code: 16ms)
+ PUT /api/inngest 200 in 46ms (next.js: 5ms, application-code: 41ms)so Fix hydration error in app/settings/page.js
+
+The exact error is on line 418:
+<span className="text-xs text-gray-400">
+  ({emailRecipients.length}/5)
+</span>
+
+The emailRecipients array is loaded from 
+localStorage which is not available on 
+server side causing mismatch.
+
+Fix by:
+1. Add 'use client' at top if not there
+2. Initialize emailRecipients state as 
+   empty array on first render
+3. Load from localStorage only in useEffect
+4. Add mounted state to prevent hydration:
+   const [mounted, setMounted] = useState(false)
+   useEffect(() => setMounted(true), [])
+   
+5. For the recipient count span use:
+   {mounted ? emailRecipients.length : 0}
+
+Apply same fix to smsRecipients count.
+
+Fix without breaking existing functionality.
+Tell me when done.
+
+---
+
+tell me the run commands now
+
+---
+
+i am getting this error please explain veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npm run dev
+
+> care-minutes-ai@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.255.255.254:3000
+- Environments: .env.local
+✓ Ready in 967ms
+
+ GET /settings 200 in 1052ms (next.js: 502ms, application-code: 550ms)
+ GET /api/inngest 200 in 278ms (next.js: 261ms, application-code: 17ms)
+ PUT /api/inngest 200 in 301ms (next.js: 226ms, application-code: 75ms)
+ GET /x/inngest 404 in 236ms (next.js: 42ms, application-code: 194ms)
+ GET /.netlify/functions/inngest 404 in 84ms (next.js: 9ms, application-code: 75ms)
+ GET /.redwood/functions/inngest 404 in 67ms (next.js: 5ms, application-code: 62ms)
+ PUT /api/inngest 200 in 22ms (next.js: 5ms, application-code: 17ms)
+ PUT /api/inngest 200 in 19ms (next.js: 4ms, application-code: 15ms)
+[browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectErrorBoundary router={{...}}>
+      <InnerLayoutRouter url="/settings" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+        <SegmentViewNode type="page" pagePath="settings/p...">
+          <SegmentTrieNode>
+          <ClientPageRoot Component={function SettingsPage} serverProvidedParams={{...}}>
+            <SettingsPage params={Promise} searchParams={Promise}>
+              <div className="p-4 md:p-6...">
+                <div>
+                <form>
+                <SectionCard icon={{...}} title="Alert Reci...">
+                  <div className="bg-white r...">
+                    <div>
+                    <p>
+                    <div className="mb-6">
+                      <div>
+                      <div>
+                      <div className="space-y-2 ...">
+                        <div className="flex items...">
+                          <div className="flex items...">
+                            <Mail>
+                            <span className="text-sm text-gray-700 truncate">
++                             singampalliveerendra5@gmail.com
+-                             jennifer@sunriseagedcare.com.au
+                          ...
+                    ...
+        ...
+      ...
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at span (<anonymous>)
+    at <unknown> (app/settings/page.js:450:21)
+    at Array.map (<anonymous>)
+    at SettingsPage (app/settings/page.js:446:32)
+  448 |                   <div className="flex items-center gap-3 min-w-0">
+  449 |                     <Mail className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+> 450 |                     <span className="text-sm text-gray-700 truncate">{r.email}</span>
+      |                     ^
+  451 |                   </div>
+  452 |                   <div className="flex items-center gap-3 ml-3 shrink-0">
+  453 |                     <SmallToggle checked={r.active} onChange={() => toggleEmail(r.id)} />
+ GET /settings 200 in 164ms (next.js: 15ms, application-code: 149ms)
+[browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectErrorBoundary router={{...}}>
+      <InnerLayoutRouter url="/settings" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+        <SegmentViewNode type="page" pagePath="settings/p...">
+          <SegmentTrieNode>
+          <ClientPageRoot Component={function SettingsPage} serverProvidedParams={{...}}>
+            <SettingsPage params={Promise} searchParams={Promise}>
+              <div className="p-4 md:p-6...">
+                <div>
+                <form>
+                <SectionCard icon={{...}} title="Alert Reci...">
+                  <div className="bg-white r...">
+                    <div>
+                    <p>
+                    <div className="mb-6">
+                      <div>
+                      <div>
+                      <div className="space-y-2 ...">
+                        <div className="flex items...">
+                          <div className="flex items...">
+                            <Mail>
+                            <span className="text-sm text-gray-700 truncate">
++                             singampalliveerendra5@gmail.com
+-                             jennifer@sunriseagedcare.com.au
+                          ...
+                    ...
+        ...
+      ...
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at span (<anonymous>)
+    at <unknown> (app/settings/page.js:450:21)
+    at Array.map (<anonymous>)
+    at SettingsPage (app/settings/page.js:446:32)
+  448 |                   <div className="flex items-center gap-3 min-w-0">
+  449 |                     <Mail className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+> 450 |                     <span className="text-sm text-gray-700 truncate">{r.email}</span>
+      |                     ^
+  451 |                   </div>
+  452 |                   <div className="flex items-center gap-3 ml-3 shrink-0">
+  453 |                     <SmallToggle checked={r.active} onChange={() => toggleEmail(r.id)} />
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 14ms)
+ PUT /api/inngest 200 in 58ms (next.js: 6ms, application-code: 53ms)
+ PUT /api/inngest 200 in 23ms (next.js: 3ms, application-code: 20ms)
+ PUT /api/inngest 200 in 31ms (next.js: 3ms, application-code: 28ms)
+ PUT /api/inngest 200 in 20ms (next.js: 4ms, application-code: 16ms)
+ PUT /api/inngest 200 in 23ms (next.js: 3ms, application-code: 21ms)
+ PUT /api/inngest 200 in 18ms (next.js: 2ms, application-code: 16ms)
+ PUT /api/inngest 200 in 39ms (next.js: 8ms, application-code: 32ms)
+ PUT /api/inngest 200 in 22ms (next.js: 4ms, application-code: 18ms)
+ PUT /api/inngest 200 in 22ms (next.js: 3ms, application-code: 19ms)
+ PUT /api/inngest 200 in 27ms (next.js: 3ms, application-code: 24ms)
+ PUT /api/inngest 200 in 19ms (next.js: 2ms, application-code: 17ms)
+ PUT /api/inngest 200 in 22ms (next.js: 5ms, application-code: 17ms)
+ PUT /api/inngest 200 in 28ms (next.js: 7ms, application-code: 21ms)
+ PUT /api/inngest 200 in 32ms (next.js: 6ms, application-code: 25ms)
+ PUT /api/inngest 200 in 20ms (next.js: 4ms, application-code: 16ms)
+ PUT /api/inngest 200 in 19ms (next.js: 4ms, application-code: 16ms)
+ PUT /api/inngest 200 in 14ms (next.js: 1873µs, application-code: 12ms)
+ PUT /api/inngest 200 in 26ms (next.js: 4ms, application-code: 22ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 28ms (next.js: 3ms, application-code: 25ms)
+ PUT /api/inngest 200 in 20ms (next.js: 2ms, application-code: 18ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 15ms)
+ PUT /api/inngest 200 in 21ms (next.js: 4ms, application-code: 16ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 23ms (next.js: 3ms, application-code: 20ms)
+ PUT /api/inngest 200 in 55ms (next.js: 15ms, application-code: 41ms)
+ PUT /api/inngest 200 in 29ms (next.js: 6ms, application-code: 23ms)
+ PUT /api/inngest 200 in 15ms (next.js: 3ms, application-code: 12ms)
+ PUT /api/inngest 200 in 26ms (next.js: 3ms, application-code: 23ms)
+ PUT /api/inngest 200 in 20ms (next.js: 4ms, application-code: 16ms)
+ PUT /api/inngest 200 in 15ms (next.js: 4ms, application-code: 12ms)
+ PUT /api/inngest 200 in 51ms (next.js: 6ms, application-code: 45ms)
+ PUT /api/inngest 200 in 20ms (next.js: 3ms, application-code: 17ms)
+ PUT /api/inngest 200 in 20ms (next.js: 3ms, application-code: 17ms)
+ PUT /api/inngest 200 in 18ms (next.js: 2ms, application-code: 16ms)
+ PUT /api/inngest 200 in 18ms (next.js: 2ms, application-code: 15ms)
+ PUT /api/inngest 200 in 29ms (next.js: 3ms, application-code: 26ms)
+ PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 15ms)
+ PUT /api/inngest 200 in 23ms (next.js: 6ms, application-code: 17ms)
+ PUT /api/inngest 200 in 34ms (next.js: 2ms, application-code: 32ms)
+ PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 25ms (next.js: 6ms, application-code: 19ms)
+ PUT /api/inngest 200 in 30ms (next.js: 9ms, application-code: 21ms)
+ PUT /api/inngest 200 in 40ms (next.js: 9ms, application-code: 31ms)
+ PUT /api/inngest 200 in 67ms (next.js: 16ms, application-code: 52ms)
+ PUT /api/inngest 200 in 38ms (next.js: 5ms, application-code: 33ms)
+ PUT /api/inngest 200 in 16ms (next.js: 4ms, application-code: 12ms)
+ PUT /api/inngest 200 in 44ms (next.js: 5ms, application-code: 39ms)
+ PUT /api/inngest 200 in 21ms (next.js: 4ms, application-code: 17ms)
+ PUT /api/inngest 200 in 33ms (next.js: 3ms, application-code: 29ms)
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 13ms)
+ PUT /api/inngest 200 in 35ms (next.js: 6ms, application-code: 30ms)
+ PUT /api/inngest 200 in 16ms (next.js: 2ms, application-code: 14ms)
+ PUT /api/inngest 200 in 25ms (next.js: 5ms, application-code: 20ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 15ms)
+ PUT /api/inngest 200 in 33ms (next.js: 4ms, application-code: 29ms)
+ PUT /api/inngest 200 in 15ms (next.js: 3ms, application-code: 12ms)
+ PUT /api/inngest 200 in 16ms (next.js: 2ms, application-code: 14ms)
+ PUT /api/inngest 200 in 19ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 16ms (next.js: 3ms, application-code: 14ms)
+ PUT /api/inngest 200 in 21ms (next.js: 4ms, application-code: 18ms)
+^C
+
+---
+
+if i want to give alearts to another mail shold i have to change code again
+
+---
+
+ALERT_TO_EMAIL=anotheremail@example.com should i paste exactly in .env.local
+
+---
+
+but after deployment  if the user want to add or change email will it work or should i always change in code
+
+---
+
+ok do the users can alert email or they can add new alert email at what time they want
+
+---
+
+yes do before doing tell me is that good feature
+
+---
+
+go ahead
+
+---
+
+-- ── facilities ───────────────────────────────────────────────
+create table if not exists facilities (
+  id               uuid primary key default gen_random_uuid(),
+  name             text not null,
+  resident_count   integer default 40,
+  manager_name     text,
+  manager_email    text,
+  manager_phone    text,
+  address          text,
+  state            text default 'NSW',
+  abn              text,
+  postcode         text,
+  annacc_rate      decimal default 220,
+  alert_time       text default '07:00',
+  email_alerts     boolean default true,
+  sms_alerts       boolean default false,
+  created_at       timestamp with time zone default now()
+);
+
+-- ── staff ────────────────────────────────────────────────────
+create table if not exists staff (
+  id               uuid primary key default gen_random_uuid(),
+  facility_id      uuid references facilities(id) on delete cascade,
+  name             text not null,
+  role             text not null,
+  employment_type  text,
+  phone            text,
+  email            text,
+  is_active        boolean default true,
+  created_at       timestamp with time zone default now()
+);
+
+-- ── shifts ───────────────────────────────────────────────────
+create table if not exists shifts (
+  id               uuid primary key default gen_random_uuid(),
+  facility_id      uuid references facilities(id) on delete cascade,
+  staff_id         uuid references staff(id) on delete set null,
+  staff_name       text,
+  staff_type       text,
+  date             date not null,
+  start_time       text,
+  end_time         text,
+  duration_minutes integer,
+  employment_type  text,
+  created_at       timestamp with time zone default now()
+);
+
+-- ── alerts ───────────────────────────────────────────────────
+create table if not exists alerts (
+  id               uuid primary key default gen_random_uuid(),
+  facility_id      uuid references facilities(id) on delete cascade,
+  date             date,
+  status           text,
+  title            text,
+  message          text,
+  gaps             jsonb default '[]',
+  suggested_staff  jsonb default '[]',
+  sent_via_email   boolean default false,
+  created_at       timestamp with time zone default now()
+);
+
+-- ── shift_history ─────────────────────────────────────────────
+create table if not exists shift_history (
+  id               uuid primary key default gen_random_uuid(),
+  shift_id         uuid references shifts(id) on delete cascade,
+  facility_id      uuid references facilities(id) on delete cascade,
+  changed_by       text,
+  changed_at       timestamp with time zone default now(),
+  old_values       jsonb,
+  new_values       jsonb,
+  reason           text
+);
+
+-- ── NEW COLUMNS ───────────────────────────────────────────────
+ALTER TABLE facilities
+ADD COLUMN IF NOT EXISTS email_recipients 
+JSONB DEFAULT '[]'::jsonb,
+ADD COLUMN IF NOT EXISTS sms_recipients   
+JSONB DEFAULT '[]'::jsonb;
+
+-- ── Row Level Security ────────────────────────────────────────
+alter table facilities    enable row level security;
+alter table staff         enable row level security;
+alter table shifts        enable row level security;
+alter table alerts        enable row level security;
+alter table shift_history enable row level security;
+
+-- ── Policies ─────────────────────────────────────────────────
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where policyname = 'allow_all_facilities'
+  ) then
+    create policy "allow_all_facilities"
+    on facilities for all using (true) 
+    with check (true);
+  end if;
+end $$;
+
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where policyname = 'allow_all_staff'
+  ) then
+    create policy "allow_all_staff"
+    on staff for all using (true) 
+    with check (true);
+  end if;
+end $$;
+
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where policyname = 'allow_all_shifts'
+  ) then
+    create policy "allow_all_shifts"
+    on shifts for all using (true) 
+    with check (true);
+  end if;
+end $$;
+
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where policyname = 'allow_all_alerts'
+  ) then
+    create policy "allow_all_alerts"
+    on alerts for all using (true) 
+    with check (true);
+  end if;
+end $$;
+
+do $$ begin
+  if not exists (
+    select 1 from pg_policies 
+    where policyname = 'allow_all_shift_history'
+  ) then
+    create policy "allow_all_shift_history"
+    on shift_history for all using (true) 
+    with check (true);
+  end if;
+end $$;
+
+-- ── Indexes ───────────────────────────────────────────────────
+create index if not exists idx_staff_facility       
+on staff(facility_id);
+
+create index if not exists idx_shifts_facility      
+on shifts(facility_id);
+
+create index if not exists idx_shifts_date          
+on shifts(date);
+
+create index if not exists idx_shifts_facility_date 
+on shifts(facility_id, date);
+
+create index if not exists idx_alerts_facility      
+on alerts(facility_id);
+
+create index if not exists idx_shift_history_shift  
+on shift_history(shift_id);is this correct if its correct what next
+
+---
+
+it success whats next to do
+
+---
+
+i am getting this errori/inngest 200 in 34ms (next.js: 2ms, application-code: 32ms)
+ PUT /api/inngest 200 in 46ms (next.js: 10ms, application-code: 35ms)
+ PUT /api/inngest 200 in 58ms (next.js: 9ms, application-code: 49ms)
+ PUT /api/inngest 200 in 33ms (next.js: 7ms, application-code: 26ms)
+ PUT /api/inngest 200 in 31ms (next.js: 7ms, application-code: 24ms)
+ PUT /api/inngest 200 in 41ms (next.js: 6ms, application-code: 35ms)
+ PUT /api/inngest 200 in 98ms (next.js: 28ms, application-code: 70ms)
+ PUT /api/inngest 200 in 17ms (next.js: 4ms, application-code: 13ms)
+ PUT /api/inngest 200 in 15ms (next.js: 3ms, application-code: 11ms)
+ PUT /api/inngest 200 in 115ms (next.js: 12ms, application-code: 103ms)
+ PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 15ms)
+ PUT /api/inngest 200 in 35ms (next.js: 6ms, application-code: 28ms)
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 14ms)
+ PUT /api/inngest 200 in 17ms (next.js: 2ms, application-code: 15ms)
+ PUT /api/inngest 200 in 23ms (next.js: 5ms, application-code: 18ms)
+ PUT /api/inngest 200 in 23ms (next.js: 5ms, application-code: 18ms)
+ PUT /api/inngest 200 in 19ms (next.js: 4ms, application-code: 16ms)
+ POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 70ms (next.js: 5ms, application-code: 65ms)
+ PUT /api/inngest 200 in 55ms (next.js: 9ms, application-code: 46ms)
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 13ms)
+ PUT /api/inngest 200 in 17ms (next.js: 2ms, application-code: 14ms)
+ PUT /api/inngest 200 in 34ms (next.js: 5ms, application-code: 29ms)
+ PUT /api/inngest 200 in 75ms (next.js: 13ms, application-code: 62ms)
+ PUT /api/inngest 200 in 55ms (next.js: 3ms, application-code: 52ms)
+ POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 19ms (next.js: 7ms, application-code: 12ms)
+ PUT /api/inngest 200 in 21ms (next.js: 3ms, application-code: 18ms)
+ PUT /api/inngest 200 in 18ms (next.js: 4ms, application-code: 14ms)
+ PUT /api/inngest 200 in 20ms (next.js: 5ms, application-code: 15ms)
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 15ms)
+ PUT /api/inngest 200 in 20ms (next.js: 4ms, application-code: 16ms)
+ PUT /api/inngest 200 in 23ms (next.js: 4ms, application-code: 19ms)
+ PUT /api/inngest 200 in 39ms (next.js: 3ms, application-code: 36ms)
+ PUT /api/inngest 200 in 18ms (next.js: 5ms, application-code: 13ms)
+ POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 19ms (next.js: 4ms, application-code: 14ms)
+ PUT /api/inngest 200 in 30ms (next.js: 6ms, application-code: 24ms)
+ PUT /api/inngest 200 in 19ms (next.js: 1940µs, application-code: 17ms)
+ PUT /api/inngest 200 in 19ms (next.js: 5ms, application-code: 15ms)
+ PUT /api/inngest 200 in 17ms (next.js: 5ms, application-code: 13ms)
+ PUT /api/inngest 200 in 18ms (next.js: 4ms, application-code: 14ms)
+ PUT /api/inngest 200 in 17ms (next.js: 3ms, application-code: 14ms)
+ PUT /api/inngest 200 in 18ms (next.js: 2ms, application-code: 15ms)
+ PUT /api/inngest 200 in 22ms (next.js: 6ms, application-code: 16ms)
+ PUT /api/inngest 200 in 25ms (next.js: 3ms, application-code: 22ms)
+ PUT /api/inngest 200 in 37ms (next.js: 5ms, application-code: 32ms)
+ PUT /api/inngest 200 in 62ms (next.js: 6ms, application-code: 56ms)
+ PUT /api/inngest 200 in 28ms (next.js: 5ms, application-code: 23ms)
+ PUT /api/inngest 200 in 23ms (next.js: 4ms, application-code: 19ms)
+ PUT /api/inngest 200 in 18ms (next.js: 3ms, application-code: 16ms)
+ PUT /api/inngest 200 in 34ms (next.js: 7ms, application-code: 27ms)
+ PUT /api/inngest 200 in 15ms (next.js: 2ms, application-code: 13ms)
+ POST /api/inngest?fnId=care-minutes-ai-daily-compliance-alert&stepId=step 401 in 16ms (next.js: 6ms, application-code: 11ms)
+^Cand in another terminal veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ npx inngest-cli@latest dev -u http://localhost:3000/api/inngest
+[06:36:12.790] INF starting executor grpc server svc=executor addr=:50053
+[06:36:12.821] INF service starting caller=executor service=executor
+[06:36:12.821] INF service starting caller=lease-scavenger service=lease-scavenger
+[06:36:12.822] INF service starting caller=devserver service=devserver
+[06:36:12.822] INF autodiscovering locally hosted SDKs
+[06:36:12.822] INF starting event stream backend=redis
+[06:36:12.822] INF subscribing to function queue
+[06:36:12.822] INF service starting caller=runner service=runner
+[06:36:12.823] INF Executor started in assignedQueueShard Mode queue_shard=default
+[06:36:12.824] INF service starting caller=api service=api
+[06:36:12.824] INF starting server caller=api addr=0.0.0.0:8288
+[06:36:12.827] INF service starting caller=connect-gateway service=connect-gateway
+[06:36:12.827] INF starting connect gateway grpc server caller=connect-gateway addr=:50052
+
+
+        Inngest Dev Server online at 0.0.0.0:8288, visible at the following URLs:
+
+         - http://127.0.0.1:8288 (http://localhost:8288)
+         - http://10.255.255.254:8288
+         - http://172.20.100.230:8288
+
+        Scanning for available serve handlers.
+        To disable scanning run `inngest dev` with flags: --no-discovery -u <your-serve-url>
+
+[06:36:12.884] INF subscribing to events topic=events
+[06:36:19.613] INF apps synced, disabling auto-discovery
+[06:45:05.370] INF publishing event caller=devserver event_name=inngest/function.invoked REDACTED REDACTED event="{ID:01KNGRKANKXA9WGK3QJQPN5P97 Name:inngest/function.invoked Data:map[_inngest:{InvokeType: InvokeIdempotencyKey: SourceAppID: SourceFnID: SourceFnVersion:0 InvokeFnID:care-minutes-ai-daily-compliance-alert InvokeCorrelationId: InvokeTraceCarrier:<nil> InvokeExpiresAt:0 InvokeGroupID: InvokeDisplayName: DebugSessionID:<nil> DebugRunID:<nil>}] Timestamp:1775457905331 Version: User:map[] size:0}"
+[06:45:05.591] INF received event event=inngest/function.invoked event_id=01KNGRKANKXA9WGK3QJQPN5P97 REDACTED
+[06:45:05.595] INF initializing fn event=inngest/function.invoked event_id=01KNGRKANKXA9WGK3QJQPN5P97 REDACTED function=daily-compliance-alert function_id=397ce048-f27a-53e1-b875-0bea575155a5
+[06:45:05.953] ERR error handling queue item error="invalid status code: 401" item_kind=start
+[06:45:37.241] ERR error handling queue item error="invalid status code: 401" item_kind=start
+[06:46:15.347] ERR error handling queue item error="invalid status code: 401" item_kind=start
+[06:47:34.888] ERR error handling queue item error="invalid status code: 401" item_kind=start
+^C[06:47:44.931] INF context canceled, stopping scavenger loop caller=lease-scavenger service=lease-scavenger
+[06:47:44.932] INF waiting for service run to finish caller=api service=api
+[06:47:44.932] INF shutting down server caller=api
+[06:47:44.932] INF waiting for service run to finish caller=executor service=executor
+[06:47:44.932] INF waiting for service run to finish caller=connect-gateway service=connect-gateway
+[06:47:44.932] INF queue waiting to quit queue_shard=default err=<nil>
+[06:47:44.932] INF waiting for service run to finish caller=devserver service=devserver
+[06:47:44.932] INF in-progress jobs finished, exiting executionScan queue_shard=default err=<nil>
+[06:47:44.932] INF service run finished caller=executor service=executor
+[06:47:44.932] INF waiting for service run to finish caller=runner service=runner
+[06:47:44.932] INF service run finished caller=runner service=runner
+[06:47:44.932] INF waiting for service run to finish caller=lease-scavenger service=lease-scavenger
+[06:47:44.933] INF service run finished caller=lease-scavenger service=lease-scavenger
+
+veerendra@DESKTOP-A42QL39:~/projects/care-minutes-ai$ so please Fix Inngest 401 unauthorized error in 
+development environment.
+
+The error is:
+POST /api/inngest 401 in development
+error="invalid status code: 401"
+
+This happens because the signing key 
+validation is too strict in development.
+
+Fix app/api/inngest/route.js to:
+1. In development environment skip 
+   signing key validation
+2. Only validate signing key in production
+
+Add this check:
+if (process.env.NODE_ENV === 'development') {
+  // Skip signature validation in dev
+}
+
+Or use the isDev flag from inngest/next serve():
+export const { GET, POST, PUT } = serve({
+  client: inngest,
+  functions: [dailyAlertFunction],
+  signingKey: process.env.NODE_ENV === 'production' 
+    ? process.env.INNGEST_SIGNING_KEY 
+    : undefined,
+})
+
+Do not break production functionality.
+In production signing key must still work.
+Tell me when fixed.
