@@ -1,0 +1,318 @@
+Fix these issues reported by client and
+add more dummy data:
+
+ISSUE 1 — CLICKABLE PHONE NUMBERS
+In all pages where phone numbers appear:
+- Staff page phone numbers
+- Settings page phone number
+- Alert suggestions staff phone numbers
+- Wrap each phone number with:
+  <a href="tel:+61XXXXXXXXX">0XXX XXX XXX</a>
+- On mobile this opens phone dialler
+- Style with blue color and underline
+- Convert Australian 04XX XXX XXX
+  to international +614XXXXXXXX format
+
+ISSUE 2 — FORECAST CONTRADICTORY NUMBERS
+In app/forecast/page.js fix:
+
+Problem 1:
+Shows "Non-compliant days: 1" but
+"Projected non-compliant: ~0 days"
+Fix projection to be consistent with
+actual non-compliant days
+
+Problem 2:
+Shows "Penalty Accrued: $0.00" but
+"Compliant days: 1/2 (50%)"
+If there is 1 non-compliant day penalty
+should not be $0.00 UNLESS that day
+was AMBER not RED
+Add clear labels:
+"Penalty days (RED only): X days"
+"AMBER days (at risk): X days"
+
+Problem 3:
+Alerts page shows $1,265.60 total
+penalties but forecast shows $0.00
+Make them consistent — both must use
+same calculation logic
+
+ISSUE 3 — NO EXTRAPOLATION WITH LESS DATA
+In app/forecast/page.js:
+- If less than 7 days data available
+  do NOT extrapolate to full quarter
+- Show message instead:
+  "Not enough data for accurate forecast.
+   Minimum 7 days needed.
+   Currently showing X days of data."
+- Only extrapolate when 7 or more days
+  of data available
+
+ISSUE 4 — COMMENT OUT STAR RATING
+In app/dashboard/page.js:
+- Find the Star Rating card section
+- Comment it out using JSX comment syntax
+- Do NOT delete — just comment out
+- Dashboard should look clean without it
+
+ISSUE 5 — DATE/WEEK FILTER ON SHIFTS
+In app/shifts/page.js add filter bar:
+
+Filter options:
+- Today
+- This Week (default)
+- Last Week
+- This Month
+- Custom date range with date pickers
+
+When filter selected:
+- Table shows only shifts for that period
+- Summary bar updates for selected period
+- Total minutes updates for that period
+- Show active filter badge:
+  "Showing: This Week" with X to clear
+
+Design:
+- Filter bar above shifts table
+- Horizontal button group on desktop
+- Dropdown on mobile
+- Active filter highlighted green
+- Match existing app design
+
+ISSUE 6 — EXPAND DUMMY DATA TO 30 DAYS
+In lib/dummyData.js:
+- Expand from 14 days to 30 days of data
+- Keep existing 14 days as they are
+- Add 16 more days going back further
+- Distribution for 30 days total:
+  * 22 GREEN days (fully compliant)
+  * 5 AMBER days (85-99%)
+  * 3 RED days (below 85%)
+- Make shifts realistic:
+  * Morning shifts 06:00-14:00
+  * Afternoon shifts 14:00-22:00
+  * Night shifts 22:00-06:00
+  * Mix of RN, EN, PCW, Agency staff
+  * 4-6 shifts per day
+- RED days should have:
+  * Fewer shifts than normal
+  * Missing RN coverage
+  * Clear gap visible
+- AMBER days should have:
+  * Almost enough coverage
+  * Minor RN shortage
+- Update trendDates array to 30 days
+- Make sure all calculations still work
+  with 30 days of data
+
+IMPORTANT:
+- Do not break any existing functionality
+- All pages must still work correctly
+- Compliance calculations must be correct
+- Run npm run build when all done
+- Fix any build errors before finishing
+- Tell me each issue when fixed
+
+---
+
+Update lib/dummyData.js to have exactly 
+30 days of realistic dummy data.
+
+Current data starts from 2026-03-04.
+Keep all existing data as is.
+
+Requirements for 30 days total:
+
+DATE RANGE:
+Start: 2026-03-08 (30 days back from today)
+End: 2026-04-06 (yesterday)
+Total: 30 days exactly
+
+DISTRIBUTION:
+- 22 GREEN days (fully compliant 100%+)
+- 5 AMBER days (85-99% not penalised)
+- 3 RED days (below 85% penalised)
+
+SHIFT PATTERNS:
+Each day must have 4-6 shifts covering:
+Morning block: 06:00-14:00 or 07:00-15:00
+Afternoon block: 14:00-22:00 or 15:00-23:00
+Night block (some days): 22:00-06:00
+
+Staff to use:
+- Sarah Chen (RN, Permanent)
+- Michael Torres (RN, Permanent)
+- Jennifer Walsh (EN, Permanent)
+- David Kim (PCW, Permanent)
+- Lisa Nguyen (PCW, Permanent)
+- Mary Johnson (Agency RN)
+- Patricia Lee (RN, Casual)
+- Robert Brown (EN, Permanent)
+- Amy Wilson (PCW, Permanent)
+
+GREEN day pattern (22 days):
+- 2 RN shifts covering full day
+- 1-2 EN shifts
+- 1-2 PCW shifts
+- Total minutes well above 8,600
+- RN minutes above 1,760
+
+AMBER day pattern (5 days):
+- 1 RN shift only (morning or afternoon)
+- 1-2 EN shifts
+- 1-2 PCW shifts
+- Total minutes between 7,310-8,599
+- RN minutes between 1,496-1,759
+- No penalty but close to limit
+
+RED day pattern (3 days):
+- 0 or 1 partial RN shift
+- 1 EN shift
+- 1 PCW shift
+- Total minutes below 7,310 (below 85%)
+- Very low RN coverage
+- Clear penalty of $1,265.60 per day
+
+SPREAD RED AND AMBER DAYS:
+Do not put RED or AMBER days 
+consecutively — spread them out:
+Example:
+Week 1: GREEN GREEN AMBER GREEN GREEN GREEN GREEN
+Week 2: GREEN GREEN GREEN RED GREEN GREEN GREEN
+Week 3: GREEN AMBER GREEN GREEN GREEN GREEN GREEN
+Week 4: GREEN GREEN RED GREEN AMBER GREEN RED
+
+UPDATE THESE IN dummyData.js:
+1. shiftsByDate object — all 30 days
+2. trendDates array — all 30 dates
+3. Make sure facility.residentCount = 40
+
+ALSO UPDATE dashboard/page.js:
+- Change 14-Day Compliance Trend 
+  to 30-Day Compliance Trend
+- Change 14-Day Summary 
+  to 30-Day Summary
+- Update all references from 14 to 30
+- Use last 30 days of data not 14
+
+VERIFY:
+- Total penalties = 3 RED days × $1,265.60
+  = $3,796.80 total
+- Average compliance should be above 85%
+- Chart should show smooth realistic line
+- No dramatic drops at end of chart
+
+Run npm run build when done.
+Fix any errors before finishing.
+Tell me when complete with summary
+of days and distribution.
+
+---
+
+/usa
+
+---
+
+please continue process
+
+---
+
+ok finally send me what are the features that we add till now end to end
+
+---
+
+Improve the 30-Day Compliance Trend chart 
+on the dashboard page.
+
+CHANGE 1 — TIME PERIOD FILTER TABS
+Add filter tabs above the chart:
+
+Options:
+- This Week (Mon-Sun current week)
+- Last Week (previous Mon-Sun)
+- This Month (current calendar month)
+- This Quarter (Q1/Q2/Q3/Q4)
+- Last 30 Days (default — current view)
+
+Design:
+- Horizontal tab buttons above chart
+- Active tab highlighted in green
+- Inactive tabs grey outlined
+- Mobile: scrollable horizontal tabs
+- When tab clicked chart updates instantly
+- Show date range below tab:
+  "Showing: 09/03/2026 — 07/04/2026"
+
+CHANGE 2 — SLIDING CAROUSEL VIEW
+Instead of showing all data points 
+crowded in one chart add sliding view:
+
+Option A — Sliding Window:
+- Show only 7 days at a time in chart
+- Add left arrow ← and right arrow → 
+  buttons on sides of chart
+- Click right arrow → slides forward 7 days
+- Click left arrow ← slides back 7 days
+- Show current window label:
+  "Week of 01/04/2026 — 07/04/2026"
+- Smooth slide animation between windows
+- Disable left arrow at start of data
+- Disable right arrow at latest data
+
+Option B — Summary Cards View:
+Below the main chart add weekly 
+summary cards that user can scroll:
+
+Each card shows one week:
+┌─────────────────────┐
+│ Week of 01/04/2026  │
+│ ✅ 5 Compliant      │
+│ ⚠️ 1 At Risk        │
+│ ❌ 1 Non-compliant  │
+│ 💰 $1,265.60        │
+│ [View Details]      │
+└─────────────────────┘
+
+Cards scroll horizontally on desktop
+Cards stack vertically on mobile
+Clicking View Details expands to show
+daily breakdown for that week
+
+IMPLEMENT BOTH OPTIONS:
+- Sliding window chart (Option A) 
+  at the top
+- Weekly summary cards (Option B)
+  below the chart
+
+ALSO FIX THE CHART DROP:
+The chart drops dramatically at the 
+last data point (07/04/2026)
+Fix this:
+- Check if last date has complete data
+- If partial day data exists show 
+  dashed line for that day
+- Add tooltip: "Today - data updating"
+- Do not let partial day distort chart
+
+DESIGN REQUIREMENTS:
+- Match existing app green theme
+- Smooth animations on all interactions
+- Mobile responsive
+- Arrow buttons clearly visible
+- Loading state when switching periods
+- Show total days in current view:
+  "Showing 7 of 30 days"
+
+KEEP EXISTING:
+- All compliance calculations correct
+- Green/Amber/Red dot colors
+- Dashed reference lines
+- Legend at bottom
+
+Run npm run build when done.
+Tell me when each change is complete.
+
+---
+
+[Pasted text #1 +89 lines]
