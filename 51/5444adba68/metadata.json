@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.5.2",
+  "checkpoint_id": "515444adba68",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "app/alerts/page.js",
+    "app/dashboard/page.js",
+    "app/forecast/page.js",
+    "app/settings/page.js",
+    "app/shifts/page.js",
+    "app/staff/page.js",
+    "lib/dummyData.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/51/5444adba68/0/metadata.json",
+      "transcript": "/51/5444adba68/0/full.jsonl",
+      "content_hash": "/51/5444adba68/0/content_hash.txt",
+      "prompt": "/51/5444adba68/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 20,
+    "cache_creation_tokens": 108819,
+    "cache_read_tokens": 853090,
+    "output_tokens": 70042,
+    "api_call_count": 15
+  }
+}

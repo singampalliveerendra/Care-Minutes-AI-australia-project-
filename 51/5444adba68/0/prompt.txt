@@ -1,0 +1,94 @@
+hi
+
+---
+
+Improve the 30-Day Compliance Trend chart 
+on the dashboard page.
+
+CHANGE 1 — TIME PERIOD FILTER TABS
+Add filter tabs above the chart:
+
+Options:
+- This Week (Mon-Sun current week)
+- Last Week (previous Mon-Sun)
+- This Month (current calendar month)
+- This Quarter (Q1/Q2/Q3/Q4)
+- Last 30 Days (default — current view)
+
+Design:
+- Horizontal tab buttons above chart
+- Active tab highlighted in green
+- Inactive tabs grey outlined
+- Mobile: scrollable horizontal tabs
+- When tab clicked chart updates instantly
+- Show date range below tab:
+  "Showing: 09/03/2026 — 07/04/2026"
+
+CHANGE 2 — SLIDING CAROUSEL VIEW
+Instead of showing all data points 
+crowded in one chart add sliding view:
+
+Option A — Sliding Window:
+- Show only 7 days at a time in chart
+- Add left arrow ← and right arrow → 
+  buttons on sides of chart
+- Click right arrow → slides forward 7 days
+- Click left arrow ← slides back 7 days
+- Show current window label:
+  "Week of 01/04/2026 — 07/04/2026"
+- Smooth slide animation between windows
+- Disable left arrow at start of data
+- Disable right arrow at latest data
+
+Option B — Summary Cards View:
+Below the main chart add weekly 
+summary cards that user can scroll:
+
+Each card shows one week:
+┌─────────────────────┐
+│ Week of 01/04/2026  │
+│ ✅ 5 Compliant      │
+│ ⚠️ 1 At Risk        │
+│ ❌ 1 Non-compliant  │
+│ 💰 $1,265.60        │
+│ [View Details]      │
+└─────────────────────┘
+
+Cards scroll horizontally on desktop
+Cards stack vertically on mobile
+Clicking View Details expands to show
+daily breakdown for that week
+
+IMPLEMENT BOTH OPTIONS:
+- Sliding window chart (Option A) 
+  at the top
+- Weekly summary cards (Option B)
+  below the chart
+
+ALSO FIX THE CHART DROP:
+The chart drops dramatically at the 
+last data point (07/04/2026)
+Fix this:
+- Check if last date has complete data
+- If partial day data exists show 
+  dashed line for that day
+- Add tooltip: "Today - data updating"
+- Do not let partial day distort chart
+
+DESIGN REQUIREMENTS:
+- Match existing app green theme
+- Smooth animations on all interactions
+- Mobile responsive
+- Arrow buttons clearly visible
+- Loading state when switching periods
+- Show total days in current view:
+  "Showing 7 of 30 days"
+
+KEEP EXISTING:
+- All compliance calculations correct
+- Green/Amber/Red dot colors
+- Dashed reference lines
+- Legend at bottom
+
+Run npm run build when done.
+Tell me when each change is complete.
