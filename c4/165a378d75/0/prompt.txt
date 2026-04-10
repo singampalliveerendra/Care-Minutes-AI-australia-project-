@@ -1,0 +1,416 @@
+Fix Recovery Plan, Forecast and What-If 
+Scenario in app/forecast/page.js
+
+Claude Code already knows this codebase.
+
+STEP 1 — REMOVE 7 DAY RESTRICTION
+Remove any condition blocking forecast 
+when less than 7 days of data.
+Forecast must work from day 1.
+Remove "Not enough data" message.
+Remove any projection hiding logic.
+
+STEP 2 — FIX FORECAST ENGINE
+Replace ALL forecast calculations with 
+exactly these formulas:
+
+const daysElapsed = number of days that
+  have at least one shift recorded
+  in current quarter
+
+const totalMinutesSoFar = sum of all 
+  shift minutes in current quarter
+
+const dailyAvgActual = daysElapsed > 0
+  ? totalMinutesSoFar / daysElapsed
+  : 0
+
+const projectedTotal = dailyAvgActual * 91
+
+const projectedTarget = residentCount * 215 * 91
+
+const projectedPct = projectedTarget > 0
+  ? (projectedTotal / projectedTarget) * 100
+  : 0
+
+const shortfallMins = Math.max(0,
+  projectedTarget - projectedTotal)
+
+const projectedPenalty =
+  (shortfallMins / 215) * 31.64
+
+Edge cases — handle all:
+- daysElapsed = 0 → show 0 not NaN
+- residentCount = 0 → show 0 not NaN
+- No shifts → show 0 not crash
+- projectedPct > 100 → cap display at 100%
+
+STEP 3 — FIX RECOVERY PLAN
+Replace recovery plan calculation with:
+
+const remainingMinutesNeeded = Math.max(0,
+  projectedTarget - totalMinutesSoFar)
+
+const minutesPerDayNeeded = daysRemaining > 0
+  ? remainingMinutesNeeded / daysRemaining
+  : 0
+
+Display:
+IF shortfallMins === 0:
+  Show GREEN card:
+  "✓ On track — no penalty projected"
+  background green, text white
+
+ELSE:
+  Show: "You need [minutesPerDayNeeded] 
+  minutes/day for [daysRemaining] 
+  remaining days to avoid penalty"
+
+STEP 4 — FIX WHAT-IF SCENARIO
+This is currently showing wrong % changes.
+Example: 3 shifts giving only 1.1% improvement
+is mathematically incorrect.
+
+Replace entire What-If logic with:
+
+const extraMinutesPerWeek = extraShifts * 480
+
+const extraMinutesRemaining =
+  extraMinutesPerWeek * (daysRemaining / 7)
+
+const newProjectedTotal =
+  projectedTotal + extraMinutesRemaining
+
+const newProjectedPct = projectedTarget > 0
+  ? (newProjectedTotal / projectedTarget) * 100
+  : 0
+
+const newShortfall = Math.max(0,
+  projectedTarget - newProjectedTotal)
+
+const newPenalty =
+  (newShortfall / 215) * 31.64
+
+const penaltySaved = Math.max(0,
+  projectedPenalty - newPenalty)
+
+Display below slider:
+"New compliance: XX.X%"
+"New projected penalty: $X,XXX.XX"
+GREEN text: "Penalty saved: $X,XXX.XX"
+
+Cap newProjectedTotal at projectedTarget
+Never show compliance over 100%
+Never show negative penalty saved
+
+STEP 5 — UPDATE FORECAST CARDS
+Update these 4 cards:
+1. Quarter Compliance → projectedPct
+2. Projected Penalty → projectedPenalty  
+3. Days Remaining → keep unchanged
+4. Penalty Accrued → historical RED days only
+   DO NOT mix with projection
+
+STEP 6 — ADD STATUS BADGE
+Next to projected compliance show badge:
+GREEN badge: projectedPct >= 100
+AMBER badge: projectedPct >= 85 and < 100
+RED badge: projectedPct < 85
+
+STEP 7 — FINANCIAL ROUNDING
+All dollar amounts:
+Math.round(amount * 100) / 100
+Never more than 2 decimal places
+Never negative values
+
+Do NOT change UI design
+Do NOT change other pages  
+Do NOT touch compliance.js
+Run npm run build when done
+Tell me each step when complete
+
+---
+
+Add these 3 new features to CareMinutes.ai.
+Claude Code already knows the full codebase.
+
+===================================
+FEATURE 1 — 24/7 RN COVERAGE TRACKER
+===================================
+
+WHAT TO BUILD:
+
+1. Dashboard RN Coverage Card:
+Add new card on dashboard below 
+Today's Compliance card titled:
+"24/7 RN Coverage — Today"
+
+Show 24-hour timeline bar:
+- Divide day into 24 hours (0-23)
+- Each hour block = green if RN present
+- Each hour block = red if no RN rostered
+- Show time labels: 12am 6am 12pm 6pm 12am
+- On hover show: "RN covered 07:00-15:00"
+  or "No RN rostered this hour"
+
+Alert banner if any gap exists:
+RED banner: "⚠ RN Gap Detected: 
+No RN rostered 11pm–7am today"
+GREEN banner: "✓ Full 24/7 RN coverage today"
+
+2. New Page /rn-coverage:
+Add to sidebar navigation between
+Dashboard and Shifts
+
+Show 7-day RN coverage view:
+- One row per day for last 7 days
+- Each row has 24 hour blocks
+- Green = covered Red = gap
+- Summary per day:
+  "Monday: 16hrs covered, 8hr gap"
+
+Show RN Gap Summary card:
+- Total gaps this week
+- Worst gap: longest consecutive hours
+- Most common gap time: e.g "11pm-7am"
+- Days with full coverage this week
+
+3. AI Alert Integration:
+When generating daily alert include 
+RN gap in the message:
+"No RN rostered 11pm–7am Thursday.
+Consider calling Sarah Chen for 
+night shift coverage."
+
+LOGIC TO IMPLEMENT:
+For each hour H (0 to 23):
+  Check if ANY shift exists where:
+  - staff_type === 'RN'
+  - start_time hour <= H
+  - end_time hour > H
+  - date === today
+
+If no shift covers hour H → gap = true
+
+Handle overnight shifts:
+Shift 22:00 to 06:00 crosses midnight
+Split into: 22:00-24:00 and 00:00-06:00
+Both parts count as RN covered
+
+Edge cases:
+- No shifts at all → all 24 hours red
+- Partial hour coverage → count as covered
+- Agency RN counts same as permanent RN
+
+Use dummy data shifts to show realistic
+timeline — some days will have gaps
+Some days will have full coverage
+
+Add RN Coverage link to:
+- app/layout.js sidebar
+- Bottom navigation mobile
+
+===================================
+FEATURE 2 — WORKER QUALIFICATION 
+EXPIRY TRACKER
+===================================
+
+IMPACT ANALYSIS FIRST:
+
+Database impact:
+Add columns to staff table in Supabase:
+ALTER TABLE staff ADD COLUMN IF NOT EXISTS
+  wwc_expiry date,           -- Working With Children
+  police_check_expiry date,  -- Police check
+  first_aid_expiry date,     -- First aid cert
+  ahpra_expiry date,         -- RN/EN registration
+  manual_handling_expiry date,
+  covid_vaccination_date date;
+
+No existing columns affected.
+All new columns are nullable.
+No breaking changes to existing code.
+
+UI impact:
+New tab on Staff page: "Qualifications"
+New /qualifications page or section
+New alert type in alerts system
+New dashboard warning card
+
+Code impact:
+New API route: /api/qualifications
+New component: QualificationBadge
+Update staff form to include expiry dates
+Update alert system for expiry alerts
+
+WHAT TO BUILD:
+
+1. Staff Page — Qualifications Tab:
+Add tab "Qualifications" next to staff list
+For each staff member show:
+Name | Role | WWC | Police | First Aid | AHPRA | Status
+
+Status badges:
+GREEN: Valid (>90 days)
+AMBER: Expiring soon (30-90 days)
+RED: Expires within 30 days
+BLACK: Expired
+
+2. Qualification Expiry Alerts:
+Add to alert system 4 warning levels:
+- 90 days before: "Heads up" amber
+- 60 days before: "Action needed" amber  
+- 30 days before: "Urgent" red
+- 7 days before: "Critical" red
+
+Alert message format:
+"Sarah Chen's AHPRA registration 
+expires in 7 days (15/04/2026).
+Renew immediately to maintain 
+RN compliance coverage."
+
+3. Dashboard Warning:
+If any qualification expires within 
+30 days show warning card:
+"⚠ 2 staff qualifications expiring soon
+Sarah Chen — AHPRA expires 15/04/2026
+Mary Johnson — Police check expires 22/04/2026
+[View All Qualifications →]"
+
+4. Dummy Data:
+Add realistic expiry dates to existing 
+staff in dummyData.js:
+- 1-2 staff with expiring quals (30 days)
+- 1 staff with critical expiry (7 days)
+- Rest with valid qualifications
+
+POPULATE SETTINGS:
+Add qualification types toggle in settings:
+Which qualifications to track:
+[x] AHPRA Registration (RN/EN mandatory)
+[x] Police Check
+[x] Working With Children
+[x] First Aid Certificate
+[x] Manual Handling
+[ ] COVID Vaccination
+
+===================================
+FEATURE 3 — SHIFT TEMPLATE SYSTEM
+===================================
+
+IMPACT ANALYSIS FIRST:
+
+UI impact:
+Two new buttons on Shifts page
+New modal: "Save as Template"
+New modal: "Apply Template"
+New section in Settings: Templates
+
+UX impact:
+Saves manager 10-15 mins daily
+Reduces data entry errors
+Encourages consistent rostering
+Key retention feature
+
+Database impact:
+New table needed in Supabase:
+CREATE TABLE IF NOT EXISTS shift_templates (
+  id uuid primary key 
+    default gen_random_uuid(),
+  facility_id uuid 
+    references facilities(id),
+  name text not null,
+  description text,
+  shifts jsonb default '[]',
+  created_at timestamp 
+    default now()
+);
+
+shifts column stores array:
+[{
+  staff_name: "Sarah Chen",
+  staff_type: "RN",
+  day_of_week: 1,  -- 1=Mon 7=Sun
+  start_time: "07:00",
+  end_time: "15:00",
+  duration_minutes: 480
+}]
+
+Code impact:
+New API route: /api/templates
+New component: TemplateModal
+Update shifts page with template buttons
+Update lib/db.js with template functions
+
+WHAT TO BUILD:
+
+1. Shifts Page — Save Template Button:
+Add button top right of Shifts page:
+"💾 Save Week as Template"
+
+When clicked show modal:
+"Save This Week as Template"
+Template name: [input field]
+Description: [optional input]
+Preview: shows list of shifts for week
+[Cancel] [Save Template]
+
+2. Shifts Page — Apply Template Button:
+Add button next to Save button:
+"📋 Apply Template"
+
+When clicked show modal:
+"Apply Template to Week"
+Select template: [dropdown]
+Apply to week of: [date picker]
+Preview: shows shifts that will be added
+[Cancel] [Apply Template]
+
+On confirm:
+Copy all template shifts forward
+Adjust dates to target week
+Keep same day of week and times
+Skip if shift already exists that day
+
+3. Template Management in Settings:
+Add new section in Settings:
+"Shift Templates"
+
+Show list of saved templates:
+Name | Shifts count | Created | Actions
+[Edit] [Delete] [Apply]
+
+4. Dummy Templates:
+Create 2 example templates in dummyData:
+Template 1: "Standard Week"
+  - Sarah Chen RN Mon-Fri 07:00-15:00
+  - Michael Torres RN Mon-Fri 15:00-23:00
+  - Jennifer Walsh EN Mon-Fri 07:00-15:00
+  - David Kim PCW Mon-Sun 07:00-15:00
+
+Template 2: "Weekend Cover"
+  - Mary Johnson Agency RN Sat-Sun 07:00-19:00
+  - Amy Wilson PCW Sat-Sun 07:00-15:00
+
+===================================
+IMPORTANT RULES
+===================================
+- Do NOT break any existing features
+- Do NOT change compliance calculations
+- Do NOT change existing pages layout
+- Only ADD new features
+- All new features mobile responsive
+- Match existing green dark design
+- Use existing shadcn/ui components
+- Run npm run build after all 3 features
+- Tell me when each feature is complete
+- Show impact analysis results before
+  building each feature
+
+---
+
+continue
+
+---
+
+continue
