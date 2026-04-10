@@ -1,0 +1,92 @@
+my client sent me this tell me what you understand P1
+
+'Forecast' page, Recovery Plan 
+
+"You need 8,634 minutes/day for 85 remaining days to avoid penalty." - Needs to be updated to :
+
+Shortfall = projected_target - projected_total = 43,680 mins. Spread over 85 days = 514 extra minutes/day needed, not 8,634.
+That's roughly 1 extra shift per day, not 18. Fix this number and the whole forecast tells a coherent story
+
+
+'RN Coverage' page, 
+
+Let's update the data i.e instead of Zero for Full Coverage days - let's put 4 and days with gaps as 3
+
+
+Report: In the generate report - TOTAL DAYS shown are 6 days less than the selected range.
+
+I've selected for 1 month range but the report showed the total days as 24 days.
+
+------------------------------------------------------------------------------------------------------
+
+P2
+
+'Forecast' page, In Penalty Accrued (Q2)
+Let's update (Q2) to Q2 2026 (Apr 1 - today ) , also the Proected Penaly - it's also for Q2 rt ?
+
+Dates in Alerts and all pages to current date.
+
+-------------------------------------------------------------------------
+P3
+
+Dashboard Page, let's update the text from 'DEMO MODE' to 'Preview Mode'
+
+Staff page, Update #3 to "3 expiring soon )
+
+RN Coverage Page, Update label/text from 'WORST GAP'to "Worst gap this week" - if possbile add date / leave it for future .
+
+---
+
+Fix these 2 issues in CareMinutes.ai.
+
+ISSUE 1 — DATE PICKER ON REPORTS PAGE
+In app/reports/page.js:
+
+Replace the plain text input fields
+for From and To dates with proper
+date picker inputs.
+
+Current: <input type="text">
+         showing DD/MM/YYYY manually typed
+
+Fix: Use <input type="date"> HTML5
+     date picker which shows calendar
+
+Implementation:
+- Replace both From and To text inputs
+  with type="date" inputs
+- Show calendar popup when clicked
+- Default From = first day of current quarter
+  using getAustralianToday() from dateUtils.js
+- Default To = today Australian time
+- Display format: DD/MM/YYYY (Australian)
+- Store value format: YYYY-MM-DD (internal)
+- Style to match existing app design
+- Mobile friendly calendar picker
+- Validate: From date cannot be after To date
+- Show error if invalid range selected
+
+Do not change Generate Report button
+Do not change report output format
+
+ISSUE 2 — RENAME BUTTON IN SETTINGS
+In app/settings/page.js:
+
+Find the "Save Recipients" button in
+the Alert Recipients section.
+
+Change button text from:
+"Save Recipients"
+To:
+"Save Settings"
+
+Keep all existing functionality exactly
+the same — only change the button label.
+Keep the save icon if present.
+Keep the green color and styling.
+
+IMPORTANT:
+- Do not break existing functionality
+- Do not change compliance calculations
+- Run npm run build when done
+- Tell me each issue when fixed
