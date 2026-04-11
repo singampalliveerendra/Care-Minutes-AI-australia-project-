@@ -1,0 +1,203 @@
+check wheather did you satisfied this clients query in my project or not P1
+
+'Forecast' page, Recovery Plan 
+
+"You need 8,634 minutes/day for 85 remaining days to avoid penalty." - Needs to be updated to :
+
+Shortfall = projected_target - projected_total = 43,680 mins. Spread over 85 days = 514 extra minutes/day needed, not 8,634.
+That's roughly 1 extra shift per day, not 18. Fix this number and the whole forecast tells a coherent story
+
+
+'RN Coverage' page, 
+
+Let's update the data i.e instead of Zero for Full Coverage days - let's put 4 and days with gaps as 3
+
+
+Report: In the generate report - TOTAL DAYS shown are 6 days less than the selected range.
+
+I've selected for 1 month range but the report showed the total days as 24 days.
+
+------------------------------------------------------------------------------------------------------
+
+P2
+
+'Forecast' page, In Penalty Accrued (Q2)
+Let's update (Q2) to Q2 2026 (Apr 1 - today ) , also the Proected Penaly - it's also for Q2 rt ?
+
+Dates in Alerts and all pages to current date.
+
+-------------------------------------------------------------------------
+P3
+
+Dashboard Page, let's update the text from 'DEMO MODE' to 'Preview Mode'
+
+Staff page, Update #3 to "3 expiring soon )
+
+RN Coverage Page, Update label/text from 'WORST GAP'to "Worst gap this week" - if possbile add date / leave it for future .
+
+---
+
+Fix these 4 mobile and UI issues in 
+CareMinutes.ai.
+
+ISSUE 1 — ADMIN MISSING ON MOBILE
+In app/layout.js or components/Sidebar.js:
+
+The Admin menu item is not showing 
+on mobile navigation.
+
+Fix:
+- Check mobile bottom navigation bar
+- Add Admin link to mobile nav
+- Use same Shield icon as desktop
+- Show Admin at bottom of mobile nav
+- Make sure all sidebar items appear
+  on mobile including Admin
+
+Check if mobile nav has a limited 
+number of items and increase limit
+to show all navigation items.
+
+ISSUE 2 — FULLSCREEN OPTION FOR CHARTS
+For all chart components on these pages:
+- app/dashboard/page.js (trend chart)
+- app/rn-coverage/page.js (timeline)
+- Any other page with charts
+
+Add fullscreen button to each chart:
+
+Implementation:
+- Add small expand icon button ⛶ 
+  top right corner of each chart card
+- Use Maximize2 icon from lucide-react
+- When clicked show chart in fullscreen modal:
+  * Dark overlay background
+  * Chart fills full screen
+  * Close button X top right
+  * Chart redraws at full screen size
+- On mobile: fullscreen = full viewport
+- On desktop: fullscreen = large modal
+- Press Escape key also closes fullscreen
+- Chart must be fully functional in 
+  fullscreen (tooltips, hover etc.)
+
+ISSUE 3 — BRIGHTER SMOOTHER FONTS
+In the app globally update typography:
+
+Current issue: fonts look dull and heavy
+
+Fix across all pages:
+- Body text: font-weight 400 normal
+- Headings: font-weight 600 semibold
+  NOT 700 bold
+- Numbers/stats: font-weight 500 medium
+- Labels: font-weight 400 normal
+- Add font smoothing to globals.css:
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  text-rendering: optimizeLegibility
+- Slightly increase letter-spacing 
+  for body text: letter-spacing: 0.01em
+- Make sure text colors are crisp:
+  Primary text: #111827 (not pure black)
+  Secondary text: #6B7280
+  Muted text: #9CA3AF
+
+ISSUE 4 — MINIMAL RAG STATUS DESIGN
+The RED/AMBER/GREEN status badges 
+look too bold and heavy.
+
+Replace current RAG badges with 
+minimal clean design:
+
+Current: Large bold colored badges
+New design: Minimal subtle indicators
+
+For status badges throughout app:
+
+GREEN status:
+- Small dot ● + text
+- Dot color: #16a34a (green-600)
+- Text: "Compliant" 
+- Background: very light green #f0fdf4
+- Border: 1px solid #bbf7d0
+- Padding: 2px 8px
+- Border radius: full rounded
+- Font: text-xs font-medium
+
+AMBER status:
+- Small dot ● + text  
+- Dot color: #d97706 (amber-600)
+- Text: "At Risk"
+- Background: very light amber #fffbeb
+- Border: 1px solid #fde68a
+- Same sizing as green
+
+RED status:
+- Small dot ● + text
+- Dot color: #dc2626 (red-600)  
+- Text: "Action Needed"
+- Background: very light red #fef2f2
+- Border: 1px solid #fecaca
+- Same sizing as green
+
+Apply this minimal design to:
+- Dashboard status badge
+- Shifts page daily status
+- Alerts page status indicators
+- Forecast page status badge
+- Any other RAG status in app
+
+For the 24hr timeline blocks 
+on RN coverage page:
+- Make blocks slightly smaller
+- Reduce border radius to 4px
+- Add subtle border between blocks
+- Green: #dcfce7 background #16a34a border
+- Red: #fee2e2 background #dc2626 border
+- This makes it less bold and more minimal
+
+IMPORTANT:
+- Do not change any functionality
+- Do not change compliance calculations
+- Keep green brand color for buttons
+- Mobile responsive for all changes
+- Run npm run build when done
+- Tell me each issue when fixed
+
+---
+
+Fix the compliance trend chart on 
+app/dashboard/page.js
+
+ISSUE: When chart opens in fullscreen 
+mode the slide arrows (< and >) 
+disappear. They work in normal view 
+but are missing in fullscreen modal.
+
+Fix:
+- Copy the same slide arrow buttons
+  from normal chart view into the
+  fullscreen modal view
+- Left arrow < on left side of chart
+- Right arrow > on right side of chart
+- Same functionality as normal view
+- Arrows disabled at start and end
+  of data range
+- Show "Showing X of Y days" text
+  at bottom of fullscreen chart too
+- Show date range at bottom left
+  same as normal view
+
+The fullscreen modal should have
+EXACTLY the same controls as the
+normal chart view:
+- Filter tabs at top ✅ (already there)
+- Slide arrows on sides ❌ (missing - add)
+- Date range bottom left ❌ (missing - add)
+- Showing X of Y days bottom right ❌ (missing - add)
+
+Do not change normal chart view
+Only fix fullscreen modal
+Run npm run build when done
+Tell me when fixed
