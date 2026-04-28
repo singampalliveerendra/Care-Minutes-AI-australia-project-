@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "3a7e9b202738",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "app/globals.css",
+    "components/BottomNav.js",
+    "lib/supabase.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/3a/7e9b202738/0/metadata.json",
+      "transcript": "/3a/7e9b202738/0/full.jsonl",
+      "content_hash": "/3a/7e9b202738/0/content_hash.txt",
+      "prompt": "/3a/7e9b202738/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1375,
+    "cache_creation_tokens": 21792,
+    "cache_read_tokens": 278807,
+    "output_tokens": 7454,
+    "api_call_count": 11
+  }
+}

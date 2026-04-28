@@ -1,0 +1,36 @@
+Increase font size slightly across 
+the entire app for better mobile readability.
+
+In app/globals.css or tailwind.config.js:
+
+Increase base font size slightly:
+- Body text: from text-sm to text-base
+  (14px → 16px)
+- Small labels: from text-xs to text-sm
+  (12px → 14px)
+- Keep headings same size
+
+Specifically fix these for mobile:
+
+In app/layout.js or globals.css:
+Add to html/body:
+font-size: 16px (base)
+-webkit-text-size-adjust: 100%
+(prevents iOS from auto-adjusting text)
+
+Mobile specific (max-width 768px):
+- Navigation labels: 14px minimum
+- Card values/numbers: keep prominent
+- Table text: 14px minimum
+- Button text: 15px minimum
+- Form labels: 14px minimum
+- Badge text: 12px minimum
+
+Keep desktop sizes same or slightly larger.
+Do not change any functionality.
+Do not change colors or spacing.
+Only increase font sizes slightly.
+Mobile readability is the priority.
+
+Run npm run build when done.
+Tell me what was changed.
